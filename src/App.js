@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import StarRating from "./StarRating";
 
+/*
 const tempMovieData = [
   {
     imdbID: "tt1375666",
@@ -48,6 +49,7 @@ const tempWatchedData = [
     userRating: 9,
   },
 ];
+*/
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -99,12 +101,14 @@ export default function App() {
 
   useEffect(
     function () {
+      const controller = new AbortController();
       async function fetchMovies() {
         try {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
           );
 
           if (!res.ok)
@@ -115,11 +119,12 @@ export default function App() {
           if (data.Response === "False") throw new Error("Movie not found");
 
           setMovies(data.Search);
-          console.log(data);
+          setError("");
+          // console.log(data);
           setIsLoading(false);
         } catch (err) {
           // console.error(err.message);
-          setError(err.message);
+          if (err.name !== "AbortError") setError(err.message);
         } finally {
           setIsLoading(false);
         }
@@ -132,6 +137,10 @@ export default function App() {
       }
 
       fetchMovies();
+
+      return function () {
+        controller.abort();
+      };
     },
     [query]
   );
@@ -199,7 +208,7 @@ function Logo() {
   return (
     <div className="logo">
       <span role="img">🍿</span>
-      <h1>UsePopcorn</h1>
+      <h1>Cinemania</h1>
     </div>
   );
 }
@@ -340,6 +349,18 @@ function MovieDetails({ selectedId, onCloseMovie, watched, onAddWatched }) {
       getMovieDetails();
     },
     [selectedId]
+  );
+
+  useEffect(
+    function () {
+      if (!title) return;
+      document.title = `Movie | ${title} `;
+
+      return function () {
+        document.title = "Cinemania";
+      };
+    },
+    [title]
   );
 
   return (
