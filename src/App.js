@@ -13,11 +13,12 @@ import { MovieDetails } from "./components/MovieDetails";
 import { WatchedMovieList } from "./components/WatchedMovieList";
 import { WatchedSummary } from "./components/WatchedSummary";
 import InitialMessage from "./components/InitialMessage";
+import API_KEY from "./apikey";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-export const KEY = "89f952a5";
+export const KEY = API_KEY;
 
 export default function App() {
   const [movies, setMovies] = useState([]);
