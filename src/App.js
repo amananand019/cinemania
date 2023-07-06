@@ -13,12 +13,12 @@ import { MovieDetails } from "./components/MovieDetails";
 import { WatchedMovieList } from "./components/WatchedMovieList";
 import { WatchedSummary } from "./components/WatchedSummary";
 import InitialMessage from "./components/InitialMessage";
-import API_KEY from "./apikey";
+// import API_KEY from "./apikey";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-export const KEY = API_KEY;
+const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 
 export default function App() {
   const [movies, setMovies] = useState([]);
@@ -71,7 +71,7 @@ export default function App() {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            `http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`,
             { signal: controller.signal }
           );
 
@@ -133,6 +133,7 @@ export default function App() {
               onCloseMovie={handleClosedMovie}
               watched={watched}
               onAddWatched={handleAddWatched}
+              API_KEY={API_KEY}
             />
           ) : (
             <>
