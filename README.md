@@ -1,6 +1,6 @@
 # Description
 
-This React project utilizes useEffect, useState, and useRef to interface with the OMDB API. useEffect manages side effects such as fetching movie data, while useState tracks and updates state variables. useRef allows accessing and manipulating DOM elements. Combined, these hooks create a dynamic and interactive movie search application. 
+This React project utilizes useEffect, useState, and useRef to interact with the OMDB API. useEffect manages side effects such as fetching movie data, while useState tracks and updates state variables. useRef allows accessing and manipulating DOM elements. Combined, these hooks create a dynamic and interactive movie search application. 
 
 ## Deployed Link:
 
